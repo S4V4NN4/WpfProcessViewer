@@ -1,0 +1,38 @@
+﻿<Window x:Class="lab1_sp_.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Process Viewer" Height="600" Width="950">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+            <Button x:Name="LoadProcessesButton" Content="Get Processes" Width="120" Click="LoadProcessesButton_Click"/>
+            <Label x:Name="CountLabel" Content="Процессов: 0" VerticalAlignment="Center" Margin="10,0,0,0"/>
+        </StackPanel>
+
+        <DataGrid x:Name="ProcessesGrid"
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  SelectionMode="Single"
+                  IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="80"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Пользователь" Binding="{Binding User}" Width="160"/>
+                <DataGridTextColumn Header="Память" Binding="{Binding Memory}" Width="120"/>
+                <DataGridTextColumn Header="Приоритет" Binding="{Binding Prio}" Width="100"/>
+                <DataGridTextColumn Header="Кол-во потоков" Binding="{Binding ThreadCount}" Width="120"/>
+                <DataGridTemplateColumn Header="Потоки" Width="220">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ThreadsString}" TextWrapping="Wrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
