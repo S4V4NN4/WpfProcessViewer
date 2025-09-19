@@ -16,6 +16,7 @@ namespace lab1_sp_
         public string User { get; set; }
         public string Memory { get; set; }
         public string Prio { get; set; }
+        public string Name { get; set; }
         public int ThreadCount { get; set; }
 
         public List<ThreadInfo> ThreadsInfo;

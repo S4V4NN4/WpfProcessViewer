@@ -44,6 +44,7 @@ namespace lab1_sp_
                     processInfo.ID = process.Id;
                     processInfo.Memory = process.WorkingSet64.ToString() + " bytes";
                     processInfo.Prio = process.BasePriority.ToString();
+                    processInfo.Name = process.ProcessName.ToString();
 
                     var processThreads = process.Threads;
                     processInfo.ThreadCount = processThreads.Count;
