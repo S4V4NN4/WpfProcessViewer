@@ -1,38 +1,78 @@
 ﻿<Window x:Class="lab1_sp_.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Process Viewer" Height="600" Width="950">
+        Title="Process Viewer" Height="600" Width="1000"
+        Background="White" FontFamily="Segoe UI" Foreground="Black">
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <!-- header -->
             <RowDefinition Height="*"/>
+            <!-- content -->
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-            <Button x:Name="LoadProcessesButton" Content="Get Processes" Width="120" Click="LoadProcessesButton_Click"/>
-            <Label x:Name="CountLabel" Content="Процессов: 0" VerticalAlignment="Center" Margin="10,0,0,0"/>
+        <!-- Верхняя панель -->
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10" Grid.Row="0">
+            <Button x:Name="LoadProcessesButton"
+                    Content="Обновить"
+                    Width="100" Height="28"
+                    Margin="0,0,10,0"
+                    Click="LoadProcessesButton_Click"/>
+            <Label x:Name="CountLabel"
+                   Content="Процессов: 0"
+                   VerticalAlignment="Center" FontSize="13"/>
         </StackPanel>
 
-        <DataGrid x:Name="ProcessesGrid"
-                  Grid.Row="1"
-                  AutoGenerateColumns="False"
-                  SelectionMode="Single"
-                  IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="80"/>
-                <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="*"/>
-                <DataGridTextColumn Header="Пользователь" Binding="{Binding User}" Width="160"/>
-                <DataGridTextColumn Header="Память" Binding="{Binding Memory}" Width="120"/>
-                <DataGridTextColumn Header="Приоритет" Binding="{Binding Prio}" Width="100"/>
-                <DataGridTextColumn Header="Кол-во потоков" Binding="{Binding ThreadCount}" Width="120"/>
-                <DataGridTemplateColumn Header="Потоки" Width="220">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding ThreadsString}" TextWrapping="Wrap"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+        <!-- Основная область: 3 колонки (лево - DataGrid, среда - GridSplitter, право - панели потоков) -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <!-- Processes -->
+                <ColumnDefinition Width="5"/>
+                <!-- Splitter -->
+                <ColumnDefinition Width="2*"/>
+                <!-- Threads -->
+            </Grid.ColumnDefinitions>
+
+            <!-- Таблица процессов (левая) -->
+            <DataGrid x:Name="ProcessesGrid"
+                      Grid.Column="0"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      SelectionMode="Single"
+                      SelectionChanged="ProcessesGrid_SelectionChanged"
+                      RowHeight="28"
+                      FontSize="13"
+                      CanUserSortColumns="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="80"/>
+                    <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="*"/>
+                    <DataGridTextColumn Header="Пользователь" Binding="{Binding User}" Width="160"/>
+                    <DataGridTextColumn Header="Память" Binding="{Binding Memory}" Width="120"/>
+                    <DataGridTextColumn Header="Приоритет" Binding="{Binding Prio}" Width="100"/>
+                    <DataGridTextColumn Header="Кол-во потоков" Binding="{Binding ThreadCount}" Width="120"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- Вертикальный разделитель, перетаскиваемый -->
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                          Background="#FFE0E0E0" ShowsPreview="True"/>
+
+            <!-- Правая панель: потоки -->
+            <GroupBox Header="Потоки выбранного процесса" Grid.Column="2" Padding="6" FontWeight="Bold">
+                <DataGrid x:Name="ThreadsGrid"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          RowHeight="26"
+                          FontSize="13"
+                          CanUserSortColumns="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="120"/>
+                        <DataGridTextColumn Header="Приоритет" Binding="{Binding Prio}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+        </Grid>
     </Grid>
 </Window>

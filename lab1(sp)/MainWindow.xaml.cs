@@ -63,7 +63,7 @@ namespace lab1_sp_
 
                     processesInfo.Add(processInfo);
                 }
-                catch 
+                catch
                 {
 
                 }
@@ -71,6 +71,16 @@ namespace lab1_sp_
                 ProcessesGrid.ItemsSource = null;
                 ProcessesGrid.ItemsSource = processesInfo;
                 CountLabel.Content = $"Процессов: {processesInfo.Count}";
+                ThreadsGrid.ItemsSource = null;
+            }
+        }
+
+        private void ProcessesGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ProcessesGrid.SelectedItem is ProcessInfo selected)
+            {
+                ThreadsGrid.ItemsSource = null;
+                ThreadsGrid.ItemsSource = selected.ThreadsInfo;
             }
         }
     }
